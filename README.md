@@ -45,10 +45,13 @@ This project follows a **Modular ES Module** architecture:
 ## 🗺️ Roadmap
 
 We track planned improvements via [GitHub Issues](https://github.com/ronmkr/chrome_homepage/issues). Major upcoming items include:
-- Keyboard Navigation (Arrow keys, `/` for search)
-- Custom Right-Click Context Menus
-- Device Sync for Settings
-- Frequently Visited Sites Section
+- **Search Query Highlighting:** Visual markers for matches.
+- **Pomodoro Widget:** Built-in productivity timer.
+- **Speed-Dial Pins:** Fixed "Quick Access" row for top bookmarks.
+- **Settings Backup:** Export/Import configuration as JSON.
+- **Keyboard Navigation:** Full arrow key and shortcut support.
+- **Bulk Actions:** Multi-select for mass moves or deletes.
+- **Custom Sorting:** Sort by name, date, or usage frequency.
 
 ## 🤝 Contributing
 
