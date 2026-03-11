@@ -17,9 +17,10 @@ Mosaic Home is a high-performance, minimalist Chrome extension that transforms y
 
 ### Developer / Local Load
 1. Clone or download this repository.
-2. Open Chrome and navigate to `chrome://extensions/`.
-3. Enable **Developer mode** (toggle in the top right).
-4. Click **Load unpacked** and select the project directory.
+2. **Note on Size:** If you have run `npm install`, the `node_modules` folder will make the project directory appear large (~45MB). Chrome will include this entire folder if you load the root directory. To keep the extension lightweight, you can delete `node_modules` after running tests, or simply ignore it as it is not needed for the extension to function.
+3. Open Chrome and navigate to `chrome://extensions/`.
+4. Enable **Developer mode** (toggle in the top right).
+5. Click **Load unpacked** and select the project directory.
 
 ## 📦 Building for Production
 
