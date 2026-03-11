@@ -23,8 +23,6 @@ Mosaic Home is a high-performance, minimalist Chrome extension that transforms y
 
 ## 📦 Building for Production
 
-While this is a Vanilla JS project, packaging it correctly for the Chrome Web Store is essential.
-
 ### Manual Build
 To create a production zip file manually:
 ```bash
@@ -33,22 +31,23 @@ zip -r mosaic-home.zip . -x "*.git*" ".github*" ".gitignore" "*.md" "LICENSE"
 ```
 
 ### Automated CI/CD (GitHub Actions)
-This project includes a GitHub Action pipeline (`.github/workflows/build.yml`):
-- **On Push/PR:** Automatically builds and validates the project structure.
-- **Artifacts:** Every build generates a `mosaic-home-extension` zip available in the "Actions" tab.
-- **Releases:** When you push a tag (e.g., `v1.1.0`), GitHub will automatically create a new Release and attach the production zip.
+Every push to `main` generates a production-ready artifact in the **Actions** tab. Tags (e.g., `v1.1.0`) trigger automated GitHub Releases.
 
-## ⚙️ Project Structure
+## ⚙️ Project Structure & Coding Standards
 
-- `manifest.json`: Extension configuration and permissions.
-- `index.html`: The core dashboard layout.
-- `css/styles.css`: Material Design system and theme support.
-- `js/`: Modularized application logic.
-  - `app.js`: Main entry point and state management.
-  - `ui.js`: DOM rendering and component creation.
-  - `dragDrop.js`: Drag-and-drop event handlers.
-  - `widgets.js`: Clock and utility features.
-- `icons/`: Extension branding assets.
+This project follows a **Modular ES Module** architecture:
+- **Separation of Concerns:** UI rendering, Drag-and-Drop, Widgets, and Utilities are kept in separate files.
+- **Stateless Components:** The UI layer focuses on rendering from data passed to it.
+- **Native APIs:** Strictly uses Chrome's native APIs (`bookmarks`, `storage`, `tabs`) to ensure stability.
+- **Security:** Pre-filters internal protocols (`chrome://`, `file://`) before rendering to prevent CSP/Local Resource errors.
+
+## 🗺️ Roadmap
+
+We track planned improvements via [GitHub Issues](https://github.com/ronmkr/chrome_homepage/issues). Major upcoming items include:
+- Keyboard Navigation (Arrow keys, `/` for search)
+- Custom Right-Click Context Menus
+- Device Sync for Settings
+- Frequently Visited Sites Section
 
 ## 🤝 Contributing
 
