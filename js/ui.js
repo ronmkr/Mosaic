@@ -39,7 +39,7 @@ if (typeof IntersectionObserver !== 'undefined') {
 /**
  * Renders a grid of bookmarks and folders into a container.
  */
-export function renderGrid(data, container, onFolderClick) {
+export function renderGrid(data, container, onFolderClick, searchQuery = '') {
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
@@ -52,7 +52,7 @@ export function renderGrid(data, container, onFolderClick) {
     const element =
       item.children || !item.url
         ? createFolderElement(item, onFolderClick)
-        : createBookmarkElement(item);
+        : createBookmarkElement(item, searchQuery);
 
     if (element) fragment.appendChild(element);
   });
@@ -94,7 +94,7 @@ function createFolderElement(folderData, onClick) {
   return div;
 }
 
-function createBookmarkElement(bookmarkData) {
+function createBookmarkElement(bookmarkData, searchQuery = '') {
   const a = document.createElement('a');
   a.className = 'grid-item bookmark-item';
   a.setAttribute('role', 'link');
@@ -137,8 +137,26 @@ function createBookmarkElement(bookmarkData) {
   iconContainer.appendChild(img);
 
   const span = document.createElement('span');
-  span.textContent = bookmarkData.title || 'New Bookmark';
   span.className = 'item-label';
+  
+  const titleText = bookmarkData.title || 'New Bookmark';
+  if (searchQuery && titleText.toLowerCase().includes(searchQuery.toLowerCase())) {
+    const regex = new RegExp(`(${searchQuery})`, 'gi');
+    const parts = titleText.split(regex);
+    
+    parts.forEach(part => {
+      if (part.toLowerCase() === searchQuery.toLowerCase()) {
+        const mark = document.createElement('mark');
+        mark.className = 'search-highlight';
+        mark.textContent = part;
+        span.appendChild(mark);
+      } else if (part) {
+        span.appendChild(document.createTextNode(part));
+      }
+    });
+  } else {
+    span.textContent = titleText;
+  }
 
   a.appendChild(iconContainer);
   a.appendChild(span);

@@ -76,7 +76,7 @@ function setupUserInterfaceListeners() {
   const debouncedSearch = debounce((query) => {
     if (query.length > 0) {
       const results = searchRecursive(state.allBookmarks, query);
-      renderGrid(results, DOM.grid, openFolder);
+      renderGrid(results, DOM.grid, openFolder, query);
     } else {
       refreshBookmarksView();
     }
