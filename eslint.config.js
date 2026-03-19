@@ -3,6 +3,9 @@ import pluginJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
+  {
+    ignores: ['dist/', 'mosaic-home.zip', 'coverage/'],
+  },
   pluginJs.configs.recommended,
   eslintConfigPrettier,
   {
