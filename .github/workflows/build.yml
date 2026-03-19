@@ -1,18 +1,20 @@
-name: Build Extension
+name: Build and Release
 
 on:
   push:
     branches: [main]
-    tags:
-      - 'v*'
   pull_request:
     branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for conventional commits to analyze history
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -37,10 +39,19 @@ jobs:
           name: mosaic-home-extension
           path: mosaic-home.zip
 
+      - name: Bump version and push tag
+        id: tag_version
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.tag_version.outputs.new_tag != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
           files: mosaic-home.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
