@@ -13,11 +13,13 @@ Thumbs.db
 *.crx
 *.pem
 
-# Node (if added later)
+# Node
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Build outputs
 dist/
 build/
-mosaic-home.zip\ndist/
+mosaic-home.zip
