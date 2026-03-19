@@ -16,8 +16,9 @@ Mosaic Home is a high-performance, minimalist Chrome extension that transforms y
 ## 🛠️ Installation
 
 ### Developer / Local Load
+
 1. Clone or download this repository.
-2. **Note on Size:** If you have run `npm install`, the `node_modules` folder will make the project directory appear large (~45MB). Chrome will include this entire folder if you load the root directory. To keep the extension lightweight, you can delete `node_modules` after running tests, or simply ignore it as it is not needed for the extension to function.
+2. Chrome will load all files in the directory, including `node_modules`, which can make it appear large (~45 MB). You can safely delete `node_modules` after running tests or use the `npm run build` script to create a zip (see below) if you want a minimal package.
 3. Open Chrome and navigate to `chrome://extensions/`.
 4. Enable **Developer mode** (toggle in the top right).
 5. Click **Load unpacked** and select the project directory.
@@ -25,18 +26,25 @@ Mosaic Home is a high-performance, minimalist Chrome extension that transforms y
 ## 📦 Building for Production
 
 ### Manual Build
-To create a production zip file manually:
+
+To create a production zip file manually (or use the helper script):
+
 ```bash
-# Exclude development and git files
-zip -r mosaic-home.zip . -x "*.git*" ".github*" ".gitignore" "*.md" "LICENSE"
+# using helper script
+npm run build
+
+# or manually excluding development and git files
+zip -r mosaic-home.zip . -x "*.git*" ".github*" ".gitignore" "*.md" "LICENSE" "CONTRIBUTING.md" "CODE_OF_CONDUCT.md"
 ```
 
 ### Automated CI/CD (GitHub Actions)
+
 Every push to `main` generates a production-ready artifact in the **Actions** tab. Tags (e.g., `v1.1.0`) trigger automated GitHub Releases.
 
 ## ⚙️ Project Structure & Coding Standards
 
 This project follows a **Modular ES Module** architecture:
+
 - **Separation of Concerns:** UI rendering, Drag-and-Drop, Widgets, and Utilities are kept in separate files.
 - **Stateless Components:** The UI layer focuses on rendering from data passed to it.
 - **Native APIs:** Strictly uses Chrome's native APIs (`bookmarks`, `storage`, `tabs`) to ensure stability.
@@ -44,7 +52,8 @@ This project follows a **Modular ES Module** architecture:
 
 ## 🗺️ Roadmap
 
-We track planned improvements via [GitHub Issues](https://github.com/ronmkr/chrome_homepage/issues). Major upcoming items include:
+We track planned improvements via [GitHub Issues](https://github.com/your-repo-owner/mosaic-home/issues). Major upcoming items include:
+
 - **Search Query Highlighting:** Visual markers for matches.
 - **Pomodoro Widget:** Built-in productivity timer.
 - **Speed-Dial Pins:** Fixed "Quick Access" row for top bookmarks.

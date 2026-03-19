@@ -16,6 +16,7 @@ We love contributions! Here’s how you can help:
 - Fork the repository.
 - Create a feature branch (`git checkout -b feature/NewFeature`).
 - Commit your changes.
+- Run `npm test` and `npm run lint` locally before submitting to ensure no regressions or style violations.
 - Ensure your code follows the existing style and is properly documented.
 - Submit a pull request.
 

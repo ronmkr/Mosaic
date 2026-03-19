@@ -1,18 +1,18 @@
 {
-	"manifest_version": 3,
-	"name": "Mosaic Home",
-	"version": "1.1.0",
-	"description": "A high-performance, minimalist dashboard for Chrome bookmarks. Organized into a clean, searchable grid with custom backgrounds and a built-in focus clock.",
-	"chrome_url_overrides": {
-		"newtab": "index.html"
-	},
-	"action": {
-		"default_icon": "icons/logo.svg"
-	},
-	"icons": {
-		"16": "icons/logo.svg",
-		"48": "icons/logo.svg",
-		"128": "icons/logo.svg"
-	},
-	"permissions": ["bookmarks", "favicon", "storage", "tabs", "unlimitedStorage"]
+  "manifest_version": 3,
+  "name": "Mosaic Home",
+  "version": "1.1.0",
+  "description": "A high-performance, minimalist dashboard for Chrome bookmarks. Organized into a clean, searchable grid with custom backgrounds and a built-in focus clock.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "action": {
+    "default_icon": "icons/logo.svg"
+  },
+  "icons": {
+    "16": "icons/logo.svg",
+    "48": "icons/logo.svg",
+    "128": "icons/logo.svg"
+  },
+  "permissions": ["bookmarks", "favicon", "storage", "tabs", "unlimitedStorage"]
 }

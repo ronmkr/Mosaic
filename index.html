@@ -1,90 +1,91 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>New Tab</title>
-		<link rel="stylesheet" href="css/styles.css" />
-	</head>
-	<body>
-		<div id="home-screen" class="screen">
-			<div class="widgets-container">
-				<div id="clock-widget" class="widget clock">
-					<div class="time">--:--</div>
-					<div class="date">---, --- --</div>
-				</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="home-screen" class="screen">
+      <div class="widgets-container">
+        <div id="clock-widget" class="widget clock">
+          <div class="time">--:--</div>
+          <div class="date">---, --- --</div>
+        </div>
 
-				<!-- Search Bar -->
-				<div class="search-container">
-					<svg class="search-icon" viewBox="0 0 24 24" width="20" height="20">
-						<path
-							d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-							fill="currentColor"
-						/>
-					</svg>
-					<input
-						type="text"
-						id="search-input"
-						placeholder="Search bookmarks..."
-						aria-label="Search bookmarks"
-					/>
-				</div>
-			</div>
+        <!-- Search Bar -->
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20">
+            <path
+              d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+              fill="currentColor"
+            />
+          </svg>
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search bookmarks..."
+            aria-label="Search bookmarks"
+          />
+        </div>
+      </div>
 
-			<div class="grid-container" id="grid">
-				<!-- Rendered items -->
-			</div>
+      <div class="grid-container" id="grid">
+        <!-- Rendered items -->
+      </div>
 
-			<div class="fab-container">
-				<button id="bg-btn" class="fab-btn secondary" title="Change Background">
-					<svg viewBox="0 0 24 24" width="24" height="24">
-						<path
-							d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
-							fill="currentColor"
-						/>
-					</svg>
-				</button>
-				<input type="file" id="bg-input" accept="image/*" class="hidden" />
+      <div class="fab-container">
+        <button id="bg-btn" class="fab-btn secondary" title="Change Background">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path
+              d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <input type="file" id="bg-input" accept="image/*" class="hidden" />
 
-				<button id="add-folder-btn" class="fab-btn" title="New Folder">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="24"
-						height="24"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<line x1="12" y1="5" x2="12" y2="19"></line>
-						<line x1="5" y1="12" x2="19" y2="12"></line>
-					</svg>
-				</button>
-			</div>
-		</div>
+        <button id="add-folder-btn" class="fab-btn" title="New Folder">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
 
-		<!-- Modal -->
-		<div id="folder-modal" class="modal hidden" inert>			<div class="modal-backdrop" id="modal-backdrop"></div>
-			<div class="modal-content">
-				<div class="modal-header">
-					<h2 id="modal-title">Folder Name</h2>
-					<button id="close-modal" class="icon-btn-close">
-						<svg viewBox="0 0 24 24" width="20" height="20">
-							<path
-								d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-								fill="currentColor"
-							/>
-						</svg>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="modal-grid" id="modal-grid"></div>
-				</div>
-			</div>
-		</div>
+    <!-- Modal -->
+    <div id="folder-modal" class="modal hidden" inert>
+      <div class="modal-backdrop" id="modal-backdrop"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Folder Name</h2>
+          <button id="close-modal" class="icon-btn-close">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-grid" id="modal-grid"></div>
+        </div>
+      </div>
+    </div>
 
-		<script type="module" src="js/app.js"></script>
-	</body>
+    <script type="module" src="js/app.js"></script>
+  </body>
 </html>
