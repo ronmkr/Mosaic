@@ -18,6 +18,8 @@
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
+  
+  --bg-blur: 12px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,8 +70,8 @@ body {
 
 body.has-bg .screen {
   background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(var(--bg-blur));
+  -webkit-backdrop-filter: blur(var(--bg-blur));
 }
 @media (prefers-color-scheme: dark) {
   body.has-bg .screen {
@@ -312,7 +314,7 @@ body.has-bg .screen {
   color: var(--text-primary);
 }
 
-/* Modal */
+/* Modal Base */
 .modal {
   position: fixed;
   inset: 0;
@@ -341,8 +343,27 @@ body.has-bg .screen {
   display: flex;
   flex-direction: column;
   box-shadow: var(--modal-shadow);
-  overflow: hidden;
-  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 1001;
+  animation: modal-fade-in 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Settings Modal Specifics */
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.settings-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.settings-slider {
+  width: 100%;
+  accent-color: var(--primary-blue);
 }
 
 @keyframes modalSlideUp {

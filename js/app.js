@@ -23,6 +23,12 @@ const DOM = {
   modalBackdrop: document.getElementById('modal-backdrop'),
   addFolderBtn: document.getElementById('add-folder-btn'),
   bgBtn: document.getElementById('bg-btn'),
+  
+  settingsBtn: document.getElementById('settings-btn'),
+  settingsModal: document.getElementById('settings-modal'),
+  closeSettingsBtn: document.getElementById('close-settings'),
+  settingsBackdrop: document.getElementById('settings-backdrop'),
+  blurSlider: document.getElementById('blur-slider'),
 };
 
 document.addEventListener('DOMContentLoaded', initApp);
@@ -71,6 +77,22 @@ function setupUserInterfaceListeners() {
   DOM.addFolderBtn.addEventListener('click', createNewFolder);
   DOM.bgBtn.addEventListener('click', () => DOM.bgInput.click());
   DOM.bgInput.addEventListener('change', handleImageUpload);
+
+  // Settings Listeners
+  DOM.settingsBtn.addEventListener('click', openSettings);
+  DOM.closeSettingsBtn.addEventListener('click', closeSettings);
+  DOM.settingsBackdrop.addEventListener('click', closeSettings);
+  
+  DOM.blurSlider.addEventListener('input', (e) => {
+    const blurValue = e.target.value;
+    document.documentElement.style.setProperty('--bg-blur', `${blurValue}px`);
+  });
+  
+  DOM.blurSlider.addEventListener('change', (e) => {
+    if (chrome.storage) {
+      chrome.storage.local.set({ backdropBlur: e.target.value });
+    }
+  });
 
   // Optimized: Debounced Search (200ms delay)
   const debouncedSearch = debounce((query) => {
@@ -144,6 +166,18 @@ function closeModal() {
   state.currentModalFolderId = null;
 }
 
+function openSettings() {
+  DOM.settingsModal.classList.remove('hidden');
+  DOM.settingsModal.removeAttribute('inert');
+  DOM.closeSettingsBtn.focus();
+}
+
+function closeSettings() {
+  DOM.settingsModal.classList.add('hidden');
+  DOM.settingsModal.setAttribute('inert', '');
+  DOM.searchInput.focus();
+}
+
 function createNewFolder() {
   const name = prompt('Folder name:');
   if (name?.trim()) {
@@ -175,8 +209,12 @@ function setupBookmarksListeners() {
 async function loadCustomBackground() {
   if (!chrome.storage) return;
   return new Promise((resolve) => {
-    chrome.storage.local.get(['backgroundImage'], ({ backgroundImage }) => {
-      if (backgroundImage) updateDashboardBackground(backgroundImage);
+    chrome.storage.local.get(['backgroundImage', 'backdropBlur'], (result) => {
+      if (result.backgroundImage) updateDashboardBackground(result.backgroundImage);
+      if (result.backdropBlur !== undefined) {
+        DOM.blurSlider.value = result.backdropBlur;
+        document.documentElement.style.setProperty('--bg-blur', `${result.backdropBlur}px`);
+      }
       resolve();
     });
   });
