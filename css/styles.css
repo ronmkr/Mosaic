@@ -439,4 +439,11 @@ body.has-bg .screen {
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   gap: 16px;
 }
-\n/* Search Highlight */\n.search-highlight {\n  background-color: rgba(255, 255, 0, 0.4);\n  color: inherit;\n  border-radius: 2px;\n  padding: 0 2px;\n}
+
+/* Search Highlight */
+.search-highlight {
+  background-color: rgba(255, 255, 0, 0.4);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 2px;
+}
