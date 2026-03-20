@@ -5,6 +5,7 @@
 import { DEFAULT_SVG } from './constants.js';
 import { getIconUrl, openInternalUrl } from './utils.js';
 import { setupDraggable, setupDroppableFolder } from './dragDrop.js';
+import { showContextMenu } from './contextMenu.js';
 
 /**
  * Global observer for lazy loading icons. In test or non-browser
@@ -77,19 +78,23 @@ function createFolderElement(folderData, onClick) {
         <span class="item-label"></span>
     `;
   div.querySelector('.item-label').textContent = folderData.title || 'Untitled Folder';
+const handleAction = (e) => {
+  if (e) {
+    e.stopPropagation();
+  }
+  if (div.classList.contains('dragging')) return;
+  onClick(folderData);
+};
 
-  const handleAction = (e) => {
-    if (div.classList.contains('dragging')) return;
-    onClick(folderData);
-  };
+div.addEventListener('click', handleAction);
+div.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    handleAction(e);
+  }
+});
 
-  div.addEventListener('click', handleAction);
-  div.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleAction(e);
-    }
-  });
+  div.addEventListener('contextmenu', (e) => showContextMenu(e, folderData));
 
   return div;
 }
@@ -105,7 +110,7 @@ function createBookmarkElement(bookmarkData, searchQuery = '') {
     const url = new URL(bookmarkData.url);
     const proto = url.protocol.toLowerCase();
     isRestricted = ['chrome:', 'chrome-extension:', 'file:', 'about:'].includes(proto);
-  } catch (e) {
+  } catch {
     // Ignore invalid URL
   }
 
@@ -174,6 +179,8 @@ function createBookmarkElement(bookmarkData, searchQuery = '') {
       }
     }
   });
+
+  a.addEventListener('contextmenu', (e) => showContextMenu(e, bookmarkData));
 
   return a;
 }

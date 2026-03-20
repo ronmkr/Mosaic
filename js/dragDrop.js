@@ -8,7 +8,7 @@ export function setupDraggable(el, itemData) {
     setTimeout(() => el.classList.add('dragging'), 0);
   });
 
-  el.addEventListener('dragend', (e) => {
+  el.addEventListener('dragend', () => {
     el.classList.remove('dragging');
   });
 }
@@ -20,7 +20,7 @@ export function setupDroppableFolder(el, folderData) {
     el.classList.add('drag-over');
   });
 
-  el.addEventListener('dragleave', (e) => {
+  el.addEventListener('dragleave', () => {
     el.classList.remove('drag-over');
   });
 

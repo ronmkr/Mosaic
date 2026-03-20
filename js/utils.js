@@ -23,13 +23,13 @@ export function getIconUrl(pageUrl, size) {
     url.searchParams.set('pageUrl', pageUrl);
     url.searchParams.set('size', size);
     return url.toString();
-  } catch (e) {
+    } catch {
     return DEFAULT_SVG;
-  }
-}
+    }
+    }
 
-export function openInternalUrl(url) {
-  try {
+    export function openInternalUrl(url) {
+    try {
     const parsed = new URL(url);
     const protocol = parsed.protocol.toLowerCase();
 
@@ -41,14 +41,14 @@ export function openInternalUrl(url) {
     ) {
       if (typeof chrome !== 'undefined' && chrome.tabs) {
         chrome.tabs.create({ url });
-        return true;
+        return false;
       }
     }
-  } catch (err) {
-    // Ignore parse errors
-  }
-  return false;
-}
+    return true;
+    } catch {
+    return true;
+    }
+    }
 
 /**
  * Compresses an image to a maximum dimension and quality.

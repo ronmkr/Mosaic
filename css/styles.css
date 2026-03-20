@@ -447,3 +447,51 @@ body.has-bg .screen {
   border-radius: 2px;
   padding: 0 2px;
 }
+
+/* Context Menu */
+.context-menu {
+  position: absolute;
+  z-index: 2000;
+  background-color: var(--bg-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--modal-shadow);
+  padding: 8px 0;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+
+.context-menu.hidden {
+  display: none !important;
+}
+
+.context-menu-item {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.context-menu-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.context-menu-item.danger {
+  color: #ef4444;
+}
+
+.context-menu-item.danger:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.context-menu-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 4px 0;
+}

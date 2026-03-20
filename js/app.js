@@ -5,6 +5,7 @@
 import { renderGrid } from './ui.js';
 import { initClock } from './widgets.js';
 import { debounce, compressImage } from './utils.js';
+import { initContextMenu } from './contextMenu.js';
 
 const state = {
   currentParentId: '1',
@@ -35,6 +36,7 @@ document.addEventListener('DOMContentLoaded', initApp);
 
 async function initApp() {
   initClock();
+  initContextMenu();
   setupBookmarksListeners();
   setupUserInterfaceListeners();
 
@@ -133,6 +135,7 @@ async function handleImageUpload(e) {
       updateDashboardBackground(compressedBase64);
       chrome.storage.local.set({ backgroundImage: compressedBase64 });
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Compression failed', err);
       updateDashboardBackground(rawBase64);
       chrome.storage.local.set({ backgroundImage: rawBase64 });
