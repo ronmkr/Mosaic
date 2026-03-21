@@ -30,6 +30,10 @@ const DOM = {
   closeSettingsBtn: document.getElementById('close-settings'),
   settingsBackdrop: document.getElementById('settings-backdrop'),
   blurSlider: document.getElementById('blur-slider'),
+  
+  exportSettingsBtn: document.getElementById('export-settings-btn'),
+  importSettingsBtn: document.getElementById('import-settings-btn'),
+  importSettingsInput: document.getElementById('import-settings-input'),
 };
 
 document.addEventListener('DOMContentLoaded', initApp);
@@ -95,6 +99,10 @@ function setupUserInterfaceListeners() {
       chrome.storage.local.set({ backdropBlur: e.target.value });
     }
   });
+
+  DOM.exportSettingsBtn.addEventListener('click', exportSettings);
+  DOM.importSettingsBtn.addEventListener('click', () => DOM.importSettingsInput.click());
+  DOM.importSettingsInput.addEventListener('change', importSettings);
 
   // Optimized: Debounced Search (200ms delay)
   const debouncedSearch = debounce((query) => {
@@ -242,4 +250,44 @@ export function searchRecursive(nodes, query) {
   });
 
   return matches.filter((item, index, self) => index === self.findIndex((t) => t.id === item.id));
+}
+
+function exportSettings() {
+  if (!chrome.storage) return;
+  chrome.storage.local.get(null, (items) => {
+    const dataStr = JSON.stringify(items);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mosaic-backup.json';
+    a.click();
+    
+    URL.revokeObjectURL(url);
+  });
+}
+
+function importSettings(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const items = JSON.parse(event.target.result);
+      if (chrome.storage && typeof items === 'object') {
+        chrome.storage.local.set(items, () => {
+          alert('Settings imported successfully!');
+          loadCustomBackground(); // Refresh visually
+          closeSettings();
+        });
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to parse settings backup', err);
+      alert('Invalid backup file.');
+    }
+  };
+  reader.readAsText(file);
 }

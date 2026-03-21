@@ -366,6 +366,31 @@ body.has-bg .screen {
   accent-color: var(--primary-blue);
 }
 
+.settings-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.settings-btn {
+  flex: 1;
+  padding: 10px 16px;
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.settings-btn:hover {
+  background-color: var(--active-bg);
+}
+
 @keyframes modalSlideUp {
   from {
     transform: translateY(40px) scale(0.98);
