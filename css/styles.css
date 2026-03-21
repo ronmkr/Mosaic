@@ -70,12 +70,14 @@ body {
 
 body.has-bg .screen {
   background-color: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(var(--bg-blur));
-  -webkit-backdrop-filter: blur(var(--bg-blur));
+  backdrop-filter: blur(var(--bg-blur, 12px));
+  -webkit-backdrop-filter: blur(var(--bg-blur, 12px));
 }
 @media (prefers-color-scheme: dark) {
   body.has-bg .screen {
     background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(var(--bg-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--bg-blur, 12px));
   }
 }
 
