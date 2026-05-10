@@ -3,9 +3,12 @@
  */
 
 import { DEFAULT_SVG } from './constants.js';
-import { getIconUrl, openInternalUrl } from './utils.js';
+import { getIconUrl, openInternalUrl, urlToBase64 } from './utils.js';
 import { setupDraggable, setupDroppableFolder } from './dragDrop.js';
 import { showContextMenu } from './contextMenu.js';
+
+// Cache for favicons
+const faviconCache = {};
 
 /**
  * Global observer for lazy loading icons. In test or non-browser
@@ -131,13 +134,50 @@ function createBookmarkElement(bookmarkData, searchQuery = '') {
   const img = document.createElement('img');
   img.alt = '';
   img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent pixel
-  img.dataset.src = getIconUrl(bookmarkData.url, '32');
+  
+  const iconUrl = getIconUrl(bookmarkData.url, '32');
+  
+  // Try to load from memory cache first
+  if (faviconCache[bookmarkData.url]) {
+    img.src = faviconCache[bookmarkData.url];
+  } else {
+    // Check storage cache
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+      chrome.storage.local.get(`fav_${bookmarkData.url}`, (res) => {
+        if (res[`fav_${bookmarkData.url}`]) {
+          const cached = res[`fav_${bookmarkData.url}`];
+          faviconCache[bookmarkData.url] = cached;
+          img.src = cached;
+        } else {
+          img.dataset.src = iconUrl;
+          iconObserver.observe(img);
+        }
+      });
+    } else {
+      img.dataset.src = iconUrl;
+      iconObserver.observe(img);
+    }
+  }
+
   img.onerror = () => {
     img.src = DEFAULT_SVG;
   };
 
-  // Register for lazy loading
-  iconObserver.observe(img);
+  // When image loads successfully, cache it if not already cached
+  img.onload = async () => {
+    if (img.src.startsWith('data:image/gif')) return; // Ignore initial pixel
+    if (img.src === DEFAULT_SVG) return; // Don't cache placeholder
+    
+    if (!faviconCache[bookmarkData.url] && img.src.startsWith('chrome-extension:')) {
+      const base64 = await urlToBase64(img.src);
+      if (base64) {
+        faviconCache[bookmarkData.url] = base64;
+        if (typeof chrome !== 'undefined' && chrome.storage) {
+          chrome.storage.local.set({ [`fav_${bookmarkData.url}`]: base64 });
+        }
+      }
+    }
+  };
 
   iconContainer.appendChild(img);
 

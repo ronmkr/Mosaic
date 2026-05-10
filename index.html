@@ -7,26 +7,35 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <div id="bg-overlay" class="bg-overlay"></div>
     <div id="home-screen" class="screen">
       <div class="widgets-container">
+        <div id="greeting-widget" class="greeting">Good day</div>
         <div id="clock-widget" class="widget clock">
-          <div class="time">--:--</div>
-          <div class="date">---, --- --</div>
+          <div class="clock-content">
+            <div class="time">--:--</div>
+            <div class="date">---, --- --</div>
+          </div>
+        </div>
+        <div id="quote-widget" class="quote-container">
+          <p class="quote-text"></p>
         </div>
 
         <!-- Search Bar -->
         <div class="search-container">
-          <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20">
-            <path
-              d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-              fill="currentColor"
-            />
-          </svg>
+          <div id="engine-selector" class="engine-selector">
+            <button id="current-engine-btn" class="engine-btn" title="Switch Search Engine (Tab)">
+              <div id="current-engine-icon" class="engine-icon"></div>
+            </button>
+            <div id="engine-dropdown" class="engine-dropdown hidden">
+              <!-- Engines rendered here -->
+            </div>
+          </div>
           <input
             type="text"
             id="search-input"
-            placeholder="Search bookmarks..."
-            aria-label="Search bookmarks"
+            placeholder="Search bookmarks or web..."
+            aria-label="Search"
           />
         </div>
       </div>
@@ -109,14 +118,24 @@
         </div>
         <div class="modal-body">
           <div class="settings-group">
+            <label for="username-input" class="settings-label">Your Name</label>
+            <input type="text" id="username-input" class="settings-input" placeholder="Enter your name" />
+          </div>
+
+          <div class="settings-group">
             <label for="blur-slider" class="settings-label">Backdrop Blur</label>
             <input type="range" id="blur-slider" min="0" max="50" value="12" class="settings-slider" />
           </div>
-          
-          <div class="settings-actions">
+
+          <div class="settings-group switch-group">
+            <label for="reduce-motion-toggle" class="settings-label">Reduce Motion</label>
+            <input type="checkbox" id="reduce-motion-toggle" class="settings-checkbox" />
+          </div>
+
+          <div class="settings-actions">            <button id="reset-bg-btn" class="settings-btn danger">Reset Background</button>
             <button id="export-settings-btn" class="settings-btn">Export Backup</button>
             <button id="import-settings-btn" class="settings-btn">Import Backup</button>
-            <input type="file" id="import-settings-input" accept=".json" class="hidden" />
+            <input type="file" id="import-settings-input" class="hidden" accept=".json" />
           </div>
         </div>
       </div>

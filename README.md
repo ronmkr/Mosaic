@@ -1,16 +1,19 @@
 # Mosaic Home
 
-Mosaic Home is a high-performance, minimalist Chrome extension that transforms your "New Tab" page into a sleek, organized bookmarks dashboard.
+Mosaic Home is a high-performance, minimalist Chrome extension that transforms your "New Tab" page into a sleek, organized, and personalized dashboard.
 
-![Icon](public/icons/logo.svg)
+![Mosaic Home Preview](public/screenshot.png)
 
 ## 🚀 Features
 
-- **Global Search:** Real-time, deep search across all bookmark folders.
-- **Material Grid Layout:** Responsive grid designed with modern Chrome aesthetics.
-- **Bookmark Management:** Full drag-and-drop support for moving items into folders.
-- **Custom Backgrounds:** Upload personal wallpapers with persistent storage.
-- **Focus Clock:** Prominent, centered digital clock and date display.
+- **Personalized Experience:** Dynamic greetings (Morning/Afternoon/Evening) and name personalization.
+- **Inspiring Quotes:** A library of 100+ motivational quotes, randomized every time you open a new tab.
+- **Super-Contrast UI:** Ultra-bold typography and solid "glass" tiles ensure 100% legibility over any background.
+- **Search Engine Selector:** Switch between Google, DuckDuckGo, Bing, GitHub, and YouTube with simple shortcuts (`Tab` or `!g `).
+- **Advanced Navigation:** Full keyboard support (Arrow keys + Enter) for rapid bookmark access.
+- **Glassmorphism Design:** Modern, translucent UI components with adjustable backdrop blur.
+- **Persistent Favicon Cache:** Bookmarks load instantly and work offline thanks to local icon caching.
+- **Custom Backgrounds:** Upload personal wallpapers with a built-in "Reset" feature and "Reduce Motion" mode.
 - **Privacy First:** 100% local processing; uses Chrome's native APIs for all data.
 
 ## 🛠️ Installation & Local Development

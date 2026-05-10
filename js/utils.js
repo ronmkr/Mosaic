@@ -84,6 +84,24 @@ export async function compressImage(dataUrl, maxWidth = 1920, quality = 0.7) {
 }
 
 /**
+ * Converts an image URL to a Base64 data URL.
+ */
+export async function urlToBase64(url) {
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
  * Limits the rate at which a function can fire.
  */
 export function debounce(func, wait) {
