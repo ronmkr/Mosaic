@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Currently, only the latest release of Mosaic Home receives active security updates. 
+Currently, only the latest release of Mosaic Home receives active security updates.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -11,7 +11,7 @@ Currently, only the latest release of Mosaic Home receives active security updat
 
 ## Reporting a Vulnerability
 
-We take the security of Mosaic Home seriously. If you believe you have found a security vulnerability, please report it to us immediately. 
+We take the security of Mosaic Home seriously. If you believe you have found a security vulnerability, please report it to us immediately.
 
 **Do not create a public GitHub issue.** Instead, please follow these steps:
 
@@ -32,7 +32,8 @@ We take the security of Mosaic Home seriously. If you believe you have found a s
 
 ## Core Security Posture
 
-Mosaic Home is a client-side Chrome Extension that operates entirely locally. 
+Mosaic Home is a client-side Chrome Extension that operates entirely locally.
+
 - **No External Servers:** We do not collect, send, or store your data on external servers.
 - **Chrome Native APIs:** We rely strictly on Chrome's native `bookmarks` and `storage` APIs, ensuring data never leaves your device.
 - **Manifest V3 Constraints:** We rigorously adhere to modern Content Security Policies (CSP), preventing inline script execution and unauthorized external resource loading.

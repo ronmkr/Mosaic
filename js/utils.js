@@ -23,13 +23,13 @@ export function getIconUrl(pageUrl, size) {
     url.searchParams.set('pageUrl', pageUrl);
     url.searchParams.set('size', size);
     return url.toString();
-    } catch {
+  } catch {
     return DEFAULT_SVG;
-    }
-    }
+  }
+}
 
-    export function openInternalUrl(url) {
-    try {
+export function openInternalUrl(url) {
+  try {
     const parsed = new URL(url);
     const protocol = parsed.protocol.toLowerCase();
 
@@ -45,10 +45,10 @@ export function getIconUrl(pageUrl, size) {
       }
     }
     return true;
-    } catch {
+  } catch {
     return true;
-    }
-    }
+  }
+}
 
 /**
  * Compresses an image to a maximum dimension and quality.

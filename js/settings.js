@@ -12,7 +12,14 @@ export async function loadSettings(updateDashboardBackground, setSearchEngine) {
   if (!chrome.storage) return;
   return new Promise((resolve) => {
     chrome.storage.local.get(
-      ['backgroundImage', 'backdropBlur', 'userName', 'reduceMotion', 'preferredEngine', 'hideBookmarksBar'],
+      [
+        'backgroundImage',
+        'backdropBlur',
+        'userName',
+        'reduceMotion',
+        'preferredEngine',
+        'hideBookmarksBar',
+      ],
       (result) => {
         updateDashboardBackground(result.backgroundImage || '');
         if (result.backdropBlur !== undefined) {
@@ -34,7 +41,7 @@ export async function loadSettings(updateDashboardBackground, setSearchEngine) {
           DOM.hideBookmarksBarToggle.checked = result.hideBookmarksBar;
         }
         resolve();
-      }
+      },
     );
   });
 }
@@ -48,12 +55,12 @@ export function exportSettings() {
     const dataStr = JSON.stringify(items);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
-    
+
     const a = document.createElement('a');
     a.href = url;
     a.download = 'mosaic-backup.json';
     a.click();
-    
+
     URL.revokeObjectURL(url);
   });
 }

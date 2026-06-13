@@ -4,8 +4,8 @@
 
 /**
  * Recursively searches through bookmark nodes for a query string.
- * @param {Array} nodes 
- * @param {string} query 
+ * @param {Array} nodes
+ * @param {string} query
  * @returns {Array} Matches
  */
 export function searchRecursive(nodes, query) {

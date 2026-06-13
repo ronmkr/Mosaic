@@ -11,25 +11,37 @@ import { initContextMenu } from './contextMenu.js';
 import { SEARCH_ENGINES } from './searchEngines.js';
 import { searchRecursive } from './search.js';
 import { loadSettings, exportSettings, importSettings } from './settings.js';
-import { handleImageUpload, resetBackground, updateDashboardBackground } from './backgroundManager.js';
+import {
+  handleImageUpload,
+  resetBackground,
+  updateDashboardBackground,
+} from './backgroundManager.js';
+import { setSearchEngine, cycleSearchEngine, renderEngineDropdown } from './searchEngineManager.js';
+import { openFolder, closeModal, openSettings, closeSettings } from './modalManager.js';
 
 document.addEventListener('DOMContentLoaded', initApp);
 
+/**
+ * Initializes the entire application ecosystem.
+ */
 async function initApp() {
   initClock();
   initContextMenu();
   setupBookmarksListeners();
   setupUserInterfaceListeners();
 
-  setSearchEngine(state.currentEngine); 
+  setSearchEngine(state.currentEngine);
   renderEngineDropdown();
 
   await Promise.all([
     loadSettings(updateDashboardBackground, setSearchEngine),
-    refreshBookmarksView()
+    refreshBookmarksView(),
   ]);
 }
 
+/**
+ * Fetches and renders the main bookmark grid.
+ */
 async function refreshBookmarksView() {
   if (!chrome.bookmarks) return;
 
@@ -56,39 +68,38 @@ async function refreshBookmarksView() {
       }
       displayList.push(...otherNodes);
 
-      renderGrid(displayList, DOM.grid, openFolder);
+      renderGrid(displayList, DOM.grid, (f) => openFolder(f, renderGrid));
       resolve();
     });
   });
 }
 
+/**
+ * Binds all global UI event listeners.
+ */
 function setupUserInterfaceListeners() {
+  bindModalListeners();
+  bindSettingsListeners();
+  bindSearchListeners();
+  bindGlobalShortcuts();
+}
+
+function bindModalListeners() {
   DOM.closeModalBtn.addEventListener('click', closeModal);
   DOM.modalBackdrop.addEventListener('click', closeModal);
   DOM.addFolderBtn.addEventListener('click', createNewFolder);
-  DOM.bgBtn.addEventListener('click', () => DOM.bgInput.click());
-  DOM.bgInput.addEventListener('change', (e) => handleImageUpload(e, updateDashboardBackground));
+}
 
-  // Search Engine Listeners
-  DOM.currentEngineBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    DOM.engineDropdown.classList.toggle('hidden');
-  });
-
-  document.addEventListener('click', () => {
-    DOM.engineDropdown.classList.add('hidden');
-  });
-
-  // Settings Listeners
+function bindSettingsListeners() {
   DOM.settingsBtn.addEventListener('click', openSettings);
   DOM.closeSettingsBtn.addEventListener('click', closeSettings);
   DOM.settingsBackdrop.addEventListener('click', closeSettings);
-  
+
   DOM.blurSlider.addEventListener('input', (e) => {
     const blurValue = e.target.value;
     document.documentElement.style.setProperty('--bg-blur', `${blurValue}px`);
   });
-  
+
   DOM.blurSlider.addEventListener('change', (e) => {
     if (chrome.storage) {
       chrome.storage.local.set({ backdropBlur: e.target.value });
@@ -119,17 +130,36 @@ function setupUserInterfaceListeners() {
 
   DOM.exportSettingsBtn.addEventListener('click', exportSettings);
   DOM.importSettingsBtn.addEventListener('click', () => DOM.importSettingsInput.click());
-  DOM.importSettingsInput.addEventListener('change', (e) => 
-    importSettings(e, () => loadSettings(updateDashboardBackground, setSearchEngine), closeSettings)
+  DOM.importSettingsInput.addEventListener('change', (e) =>
+    importSettings(
+      e,
+      () => loadSettings(updateDashboardBackground, setSearchEngine),
+      closeSettings,
+    ),
   );
   DOM.resetBgBtn.addEventListener('click', () => resetBackground(updateDashboardBackground));
+
+  DOM.bgBtn.addEventListener('click', () => DOM.bgInput.click());
+  DOM.bgInput.addEventListener('change', (e) => handleImageUpload(e, updateDashboardBackground));
+}
+
+function bindSearchListeners() {
+  // Search Engine Dropdown
+  DOM.currentEngineBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    DOM.engineDropdown.classList.toggle('hidden');
+  });
+
+  document.addEventListener('click', () => {
+    DOM.engineDropdown.classList.add('hidden');
+  });
 
   // Optimized: Debounced Search (200ms delay)
   const debouncedSearch = debounce((query) => {
     state.selectedIndex = -1;
     if (query.length > 0) {
       const results = searchRecursive(state.allBookmarks, query);
-      renderGrid(results, DOM.grid, openFolder, query);
+      renderGrid(results, DOM.grid, (f) => openFolder(f, renderGrid), query);
     } else {
       refreshBookmarksView();
     }
@@ -137,13 +167,14 @@ function setupUserInterfaceListeners() {
 
   DOM.searchInput.addEventListener('input', (e) => {
     const query = e.target.value.trim();
-    
+
+    // Quick engine switch via prefix (e.g., "!g ")
     if (query.startsWith('!')) {
       const match = query.match(/^!([a-z]+)\s/);
       if (match) {
         const prefix = match[1];
         const engineKeys = Object.keys(SEARCH_ENGINES);
-        const targetKey = engineKeys.find(key => key.startsWith(prefix));
+        const targetKey = engineKeys.find((key) => key.startsWith(prefix));
         if (targetKey) {
           setSearchEngine(targetKey);
           DOM.searchInput.value = query.replace(/^![a-z]+\s/, '');
@@ -151,7 +182,7 @@ function setupUserInterfaceListeners() {
         }
       }
     }
-    
+
     debouncedSearch(query);
   });
 
@@ -183,7 +214,7 @@ function setupUserInterfaceListeners() {
       }
     } else if (e.key === 'Enter') {
       const query = DOM.searchInput.value.trim();
-      
+
       if (state.selectedIndex >= 0 && items[state.selectedIndex]) {
         items[state.selectedIndex].click();
       } else if (query) {
@@ -197,7 +228,9 @@ function setupUserInterfaceListeners() {
       }
     }
   });
+}
 
+function bindGlobalShortcuts() {
   document.addEventListener('keydown', (e) => {
     if (e.key === '/' && document.activeElement !== DOM.searchInput) {
       e.preventDefault();
@@ -206,6 +239,10 @@ function setupUserInterfaceListeners() {
   });
 }
 
+/**
+ * Updates visual selection state in the bookmark grid.
+ * @param {NodeList} items
+ */
 function updateSelection(items) {
   items.forEach((item, index) => {
     if (index === state.selectedIndex) {
@@ -217,75 +254,9 @@ function updateSelection(items) {
   });
 }
 
-function setSearchEngine(key) {
-  if (!SEARCH_ENGINES[key]) return;
-  state.currentEngine = key;
-  DOM.currentEngineIcon.innerHTML = SEARCH_ENGINES[key].icon;
-  renderEngineDropdown();
-  
-  if (chrome.storage) {
-    chrome.storage.local.set({ preferredEngine: key });
-  }
-}
-
-function cycleSearchEngine() {
-  const keys = Object.keys(SEARCH_ENGINES);
-  const currentIndex = keys.indexOf(state.currentEngine);
-  const nextIndex = (currentIndex + 1) % keys.length;
-  setSearchEngine(keys[nextIndex]);
-}
-
-function renderEngineDropdown() {
-  DOM.engineDropdown.innerHTML = '';
-  Object.keys(SEARCH_ENGINES).forEach(key => {
-    const engine = SEARCH_ENGINES[key];
-    const btn = document.createElement('button');
-    btn.className = `engine-option ${state.currentEngine === key ? 'active' : ''}`;
-    btn.innerHTML = `
-      ${engine.icon}
-      <span>${engine.name}</span>
-    `;
-    btn.onclick = () => {
-      setSearchEngine(key);
-      DOM.engineDropdown.classList.add('hidden');
-      DOM.searchInput.focus();
-    };
-    DOM.engineDropdown.appendChild(btn);
-  });
-}
-
-function openFolder(folder) {
-  state.currentParentId = folder.id;
-  state.currentModalFolderId = folder.id;
-
-  DOM.modalTitle.textContent = folder.title;
-  renderGrid(folder.children || [], DOM.modalGrid, openFolder);
-
-  DOM.modal.classList.remove('hidden');
-  DOM.modal.removeAttribute('inert');
-  DOM.closeModalBtn.focus();
-}
-
-function closeModal() {
-  DOM.searchInput.focus();
-  DOM.modal.classList.add('hidden');
-  DOM.modal.setAttribute('inert', '');
-  state.currentParentId = '1';
-  state.currentModalFolderId = null;
-}
-
-function openSettings() {
-  DOM.settingsModal.classList.remove('hidden');
-  DOM.settingsModal.removeAttribute('inert');
-  DOM.closeSettingsBtn.focus();
-}
-
-function closeSettings() {
-  DOM.settingsModal.classList.add('hidden');
-  DOM.settingsModal.setAttribute('inert', '');
-  DOM.searchInput.focus();
-}
-
+/**
+ * Triggers native Chrome bookmark folder creation.
+ */
 function createNewFolder() {
   const name = prompt('Folder name:');
   if (name?.trim()) {
@@ -293,6 +264,9 @@ function createNewFolder() {
   }
 }
 
+/**
+ * Sets up listeners for Chrome bookmark tree changes.
+ */
 function setupBookmarksListeners() {
   if (!chrome.bookmarks) return;
 
@@ -302,7 +276,7 @@ function setupBookmarksListeners() {
 
     if (state.currentModalFolderId) {
       chrome.bookmarks.getSubTree(state.currentModalFolderId, ([node]) => {
-        if (node) openFolder(node);
+        if (node) openFolder(node, renderGrid);
         else closeModal();
       });
     }

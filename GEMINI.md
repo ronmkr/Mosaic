@@ -4,21 +4,21 @@ This file serves as the definitive reference for how Gemini CLI should interact 
 
 ## 🏛️ Project Architecture
 
-Mosaic Home is a minimalist Chrome extension "New Tab" override designed for high performance. 
+Mosaic Home is a minimalist Chrome extension "New Tab" override designed for high performance.
 
 - **Bundler:** Vite
 - **Testing:** Jest
 - **Linting & Formatting:** ESLint (flat config) and Prettier
 - **Git Hooks:** Husky (enforces Conventional Commits and passes linters/tests before commit)
 - **Modularity:** Stateless rendering components and a modularized logic layer:
-    - `js/app.js`: Main orchestrator and entry point.
-    - `js/state.js`: Centralized state management.
-    - `js/dom.js`: Cached DOM element references.
-    - `js/ui.js`: Rendering components (stateless).
-    - `js/settings.js`: Settings persistence and import/export.
-    - `js/backgroundManager.js`: Image processing and background updates.
-    - `js/search.js`: Recursive search algorithms.
-    - `js/widgets.js`: Self-contained widget logic (Clock, Quotes).
+  - `js/app.js`: Main orchestrator and entry point.
+  - `js/state.js`: Centralized state management.
+  - `js/dom.js`: Cached DOM element references.
+  - `js/ui.js`: Rendering components (stateless).
+  - `js/settings.js`: Settings persistence and import/export.
+  - `js/backgroundManager.js`: Image processing and background updates.
+  - `js/search.js`: Recursive search algorithms.
+  - `js/widgets.js`: Self-contained widget logic (Clock, Quotes).
 - **APIs:** Strictly Chrome's native Manifest V3 APIs (`chrome.bookmarks`, `chrome.storage`, `chrome.tabs`). Avoid injecting heavy third-party libraries for core logic where native APIs exist.
 
 ## 📜 Coding Conventions
@@ -33,17 +33,20 @@ Mosaic Home is a minimalist Chrome extension "New Tab" override designed for hig
 ### Execution Cycle
 
 When taking a directive, follow these steps strictly:
+
 1. **Analyze:** Ensure you know exactly which Chrome API or module handles the request.
 2. **Act:** Modify the module or write the new component.
 3. **Verify locally:** Run `npm run lint` and `npm test` before committing any changes. Fix any resulting errors.
-4. **Commit:** Provide a drafted conventional commit message and ask the user for approval. 
+4. **Commit:** Provide a drafted conventional commit message and ask the user for approval.
 
 ### Adding Features
 
 If implementing a feature from the Roadmap (e.g., Pomodoro Timer, Highlight Matches):
+
 - Try to integrate the feature into the existing UI grid structure or `js/widgets.js`.
 - Provide visual implementations utilizing clean, vanilla CSS instead of external frameworks like Tailwind.
 
 ## 🛑 Security Constraints
+
 - All external links mapped dynamically must be vetted; never bypass Manifest V3 CSP constraints with arbitrary `eval()` or inline execution.
 - Maintain the strict filtering in UI rendering that restricts protocols like `file://` or `chrome://` from attempting to launch improperly mapped URLs.

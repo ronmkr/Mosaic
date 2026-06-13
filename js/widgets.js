@@ -60,4 +60,3 @@ export function initClock() {
   update();
   setInterval(update, 1000);
 }
-

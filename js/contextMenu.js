@@ -34,7 +34,7 @@ function hideContextMenu() {
 
 export function showContextMenu(e, itemData) {
   e.preventDefault();
-  
+
   if (!contextMenu) initContextMenu();
 
   contextMenu.innerHTML = '';
@@ -54,21 +54,19 @@ export function showContextMenu(e, itemData) {
         label: 'Open in Incognito',
         action: () => chrome.windows.create({ url: itemData.url, incognito: true }),
       },
-      { type: 'divider' }
+      { type: 'divider' },
     );
   }
 
-  actions.push(
-    {
-      label: 'Edit Title',
-      action: () => {
-        const newTitle = prompt('Enter new title:', itemData.title);
-        if (newTitle !== null && newTitle.trim() !== '') {
-          chrome.bookmarks.update(itemData.id, { title: newTitle.trim() });
-        }
-      },
-    }
-  );
+  actions.push({
+    label: 'Edit Title',
+    action: () => {
+      const newTitle = prompt('Enter new title:', itemData.title);
+      if (newTitle !== null && newTitle.trim() !== '') {
+        chrome.bookmarks.update(itemData.id, { title: newTitle.trim() });
+      }
+    },
+  });
 
   if (!isFolder) {
     actions.push({
@@ -89,14 +87,18 @@ export function showContextMenu(e, itemData) {
       danger: true,
       action: () => {
         if (isFolder) {
-          if (confirm(`Are you sure you want to delete the folder "${itemData.title}" and all its contents?`)) {
+          if (
+            confirm(
+              `Are you sure you want to delete the folder "${itemData.title}" and all its contents?`,
+            )
+          ) {
             chrome.bookmarks.removeTree(itemData.id);
           }
         } else {
           chrome.bookmarks.remove(itemData.id);
         }
       },
-    }
+    },
   );
 
   actions.forEach((item) => {

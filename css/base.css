@@ -1,0 +1,122 @@
+/**
+ * @fileoverview Base styles, variables, and global resets for Mosaic Home.
+ */
+
+:root {
+  --bg-color: #f8f9fa;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --active-bg: rgba(0, 0, 0, 0.1);
+  --border-color: #e5e7eb;
+  --primary-blue: #3b82f6;
+  --search-bg: #ffffff;
+
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --modal-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+  --icon-size: 56px;
+  --grid-gap: 20px;
+  --item-width: 120px;
+
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --bg-blur: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #111827;
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --hover-bg: rgba(255, 255, 255, 0.06);
+    --active-bg: rgba(255, 255, 255, 0.1);
+    --border-color: #374151;
+    --primary-blue: #60a5fa;
+    --search-bg: #1f2937;
+
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* Global Animations/Transitions Control */
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  display: none;
+  pointer-events: none;
+  filter: blur(var(--bg-blur, 0px));
+  transform: scale(1.05); /* Prevents white edges when blurred */
+}
+
+/* Add a tint to the background to ensure foreground readability */
+.bg-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* Darker tint */
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-overlay::after {
+    background: rgba(0, 0, 0, 0.7); /* Deep dark tint for night mode */
+  }
+}
+
+body.has-bg .bg-overlay {
+  display: block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

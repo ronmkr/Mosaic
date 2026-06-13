@@ -81,21 +81,21 @@ function createFolderElement(folderData, onClick) {
         <span class="item-label"></span>
     `;
   div.querySelector('.item-label').textContent = folderData.title || 'Untitled Folder';
-const handleAction = (e) => {
-  if (e) {
-    e.stopPropagation();
-  }
-  if (div.classList.contains('dragging')) return;
-  onClick(folderData);
-};
+  const handleAction = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    if (div.classList.contains('dragging')) return;
+    onClick(folderData);
+  };
 
-div.addEventListener('click', handleAction);
-div.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    handleAction(e);
-  }
-});
+  div.addEventListener('click', handleAction);
+  div.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleAction(e);
+    }
+  });
 
   div.addEventListener('contextmenu', (e) => showContextMenu(e, folderData));
 
@@ -134,9 +134,9 @@ function createBookmarkElement(bookmarkData, searchQuery = '') {
   const img = document.createElement('img');
   img.alt = '';
   img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent pixel
-  
+
   const iconUrl = getIconUrl(bookmarkData.url, '32');
-  
+
   // Try to load from memory cache first
   if (faviconCache[bookmarkData.url]) {
     img.src = faviconCache[bookmarkData.url];
@@ -167,7 +167,7 @@ function createBookmarkElement(bookmarkData, searchQuery = '') {
   img.onload = async () => {
     if (img.src.startsWith('data:image/gif')) return; // Ignore initial pixel
     if (img.src === DEFAULT_SVG) return; // Don't cache placeholder
-    
+
     if (!faviconCache[bookmarkData.url] && img.src.startsWith('chrome-extension:')) {
       const base64 = await urlToBase64(img.src);
       if (base64) {
@@ -183,13 +183,13 @@ function createBookmarkElement(bookmarkData, searchQuery = '') {
 
   const span = document.createElement('span');
   span.className = 'item-label';
-  
+
   const titleText = bookmarkData.title || 'New Bookmark';
   if (searchQuery && titleText.toLowerCase().includes(searchQuery.toLowerCase())) {
     const regex = new RegExp(`(${searchQuery})`, 'gi');
     const parts = titleText.split(regex);
-    
-    parts.forEach(part => {
+
+    parts.forEach((part) => {
       if (part.toLowerCase() === searchQuery.toLowerCase()) {
         const mark = document.createElement('mark');
         mark.className = 'search-highlight';

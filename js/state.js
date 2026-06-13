@@ -13,8 +13,8 @@ export const state = {
 
 /**
  * Updates a state property and optionally persists it to storage.
- * @param {string} key 
- * @param {any} value 
+ * @param {string} key
+ * @param {any} value
  */
 export function updateState(key, value) {
   if (key in state) {
