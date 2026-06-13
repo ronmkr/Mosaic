@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { searchRecursive } from '../js/app.js';
+import { searchRecursive } from '../js/search.js';
 import { getIconUrl } from '../js/utils.js';
 import { DEFAULT_SVG } from '../js/constants.js';
 

@@ -10,7 +10,15 @@ Mosaic Home is a minimalist Chrome extension "New Tab" override designed for hig
 - **Testing:** Jest
 - **Linting & Formatting:** ESLint (flat config) and Prettier
 - **Git Hooks:** Husky (enforces Conventional Commits and passes linters/tests before commit)
-- **Modularity:** Stateless rendering components, separated concerns for drag-and-drop, UI, widgets, and utility functions.
+- **Modularity:** Stateless rendering components and a modularized logic layer:
+    - `js/app.js`: Main orchestrator and entry point.
+    - `js/state.js`: Centralized state management.
+    - `js/dom.js`: Cached DOM element references.
+    - `js/ui.js`: Rendering components (stateless).
+    - `js/settings.js`: Settings persistence and import/export.
+    - `js/backgroundManager.js`: Image processing and background updates.
+    - `js/search.js`: Recursive search algorithms.
+    - `js/widgets.js`: Self-contained widget logic (Clock, Quotes).
 - **APIs:** Strictly Chrome's native Manifest V3 APIs (`chrome.bookmarks`, `chrome.storage`, `chrome.tabs`). Avoid injecting heavy third-party libraries for core logic where native APIs exist.
 
 ## 📜 Coding Conventions

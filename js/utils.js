@@ -96,7 +96,7 @@ export async function urlToBase64(url) {
       reader.onerror = reject;
       reader.readAsDataURL(blob);
     });
-  } catch (e) {
+  } catch {
     return null;
   }
 }
