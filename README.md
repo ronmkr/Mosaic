@@ -57,51 +57,6 @@ npm run build
 
 This command will bundle the extension via Vite, output the compiled assets into `dist/`, and create a `mosaic-home.zip` file containing everything needed.
 
-### Automated CI/CD (GitHub Actions)
-
-Every push to `main` generates a production-ready artifact in the **Actions** tab. Tags (e.g., `v1.1.0`) trigger automated GitHub Releases.
-
-## Project Structure & Coding Standards
-
-This project uses a clean **ES Module** architecture, grouping related features into distinct files. Coding standards are strictly enforced through Husky git hooks:
-
-### JavaScript Files
-
-- `js/app.js`: Main orchestrator and UI event binder.
-- `js/state.js`: Centralized state management.
-- `js/dom.js`: Cached DOM element references.
-- `js/ui.js`: Stateless rendering components.
-- `js/settings.js`: Settings persistence and import/export logic.
-- `js/backgroundManager.js`: Image processing, compression, and background updates.
-- `js/search.js`: Recursive search algorithms.
-- `js/searchEngineManager.js`: Search engine cycling and dropdown rendering.
-- `js/modalManager.js`: Core modal navigation logic.
-- `js/widgets.js`: Self-contained widget logic (Clock, Quotes).
-
-### CSS Files
-
-- `css/base.css`: CSS variables, global resets, typography, and background overlays.
-- `css/layout.css`: Main screen flexbox, grid container structure, and FAB positioning.
-- `css/components.css`: Search bar, buttons, dropdowns, and individual grid items (tiles).
-- `css/widgets.css`: Clock, greeting, and quote styling.
-- `css/modals.css`: Modals, backdrops, and settings-specific UI.
-
-### Quality Enforcements
-
-- **Vite Bundler:** Compiles and maps dependencies, ensuring compliance with Manifest V3 Content Security Policies.
-- **Linting & Formatting:** Enforced via `ESLint` and `Prettier`. Run `npm run lint` or `npm run format` manually if needed.
-- **Conventional Commits:** All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification, validated locally by `commitlint` before every commit.
-- **Native APIs:** Strictly uses Chrome's native APIs (`bookmarks`, `storage`, `tabs`) to ensure stability.
-
-## Roadmap
-
-We track planned improvements via [GitHub Issues](https://github.com/your-repo-owner/mosaic-home/issues). Major upcoming items include:
-
-- **Speed-Dial Pins:** Fixed "Quick Access" row for top bookmarks.
-- **Pomodoro Widget:** Built-in productivity timer.
-- **Bulk Actions:** Mass moves or deletes for bookmarks.
-- **Custom Sorting:** Sort by name, date, or usage frequency.
-
 ## Contributing
 
 1. Fork the repo.
