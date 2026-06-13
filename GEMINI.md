@@ -2,7 +2,7 @@
 
 This file serves as the definitive reference for how Gemini CLI should interact with and modify the `Mosaic Home` codebase.
 
-## 🏛️ Project Architecture
+## Project Architecture
 
 Mosaic Home is a minimalist Chrome extension "New Tab" override designed for high performance.
 
@@ -21,7 +21,7 @@ Mosaic Home is a minimalist Chrome extension "New Tab" override designed for hig
   - `js/widgets.js`: Self-contained widget logic (Clock, Quotes).
 - **APIs:** Strictly Chrome's native Manifest V3 APIs (`chrome.bookmarks`, `chrome.storage`, `chrome.tabs`). Avoid injecting heavy third-party libraries for core logic where native APIs exist.
 
-## 📜 Coding Conventions
+## Coding Conventions
 
 1. **Vanilla JavaScript (ES Modules):** Use standard ES6+ syntax. Avoid transpilers like TypeScript unless explicitly mandated by the user.
 2. **Stateless UI:** Rendering components should accept data and output DOM/HTML strings or manipulate given elements, relying on a central state management or event-driven system to dictate updates.
@@ -46,7 +46,7 @@ If implementing a feature from the Roadmap (e.g., Pomodoro Timer, Highlight Matc
 - Try to integrate the feature into the existing UI grid structure or `js/widgets.js`.
 - Provide visual implementations utilizing clean, vanilla CSS instead of external frameworks like Tailwind.
 
-## 🛑 Security Constraints
+## Security Constraints
 
 - All external links mapped dynamically must be vetted; never bypass Manifest V3 CSP constraints with arbitrary `eval()` or inline execution.
 - Maintain the strict filtering in UI rendering that restricts protocols like `file://` or `chrome://` from attempting to launch improperly mapped URLs.

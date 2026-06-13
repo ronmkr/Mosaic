@@ -4,7 +4,7 @@ Mosaic Home is a high-performance, minimalist Chrome extension that transforms y
 
 ![Mosaic Home Preview](public/screenshot.png)
 
-## 🚀 Features
+## Features
 
 - **Personalized Experience:** Dynamic greetings (Morning/Afternoon/Evening) and name personalization.
 - **Inspiring Quotes:** A library of 100+ motivational quotes, randomized every time you open a new tab.
@@ -19,7 +19,7 @@ Mosaic Home is a high-performance, minimalist Chrome extension that transforms y
 - **Settings Backup:** Export and import your configuration as a JSON file.
 - **Privacy First:** 100% local processing; uses Chrome's native APIs for all data.
 
-## 🛠️ Installation & Local Development
+## Installation & Local Development
 
 This project uses **Vite** for fast, modern web development and asset bundling.
 
@@ -47,7 +47,7 @@ npm run dev
 3. Enable **Developer mode** (toggle in the top right).
 4. Click **Load unpacked** and select the newly created `dist/` directory.
 
-## 📦 Building for Production
+## Building for Production
 
 To create a production zip file ready for the Chrome Web Store:
 
@@ -61,7 +61,7 @@ This command will bundle the extension via Vite, output the compiled assets into
 
 Every push to `main` generates a production-ready artifact in the **Actions** tab. Tags (e.g., `v1.1.0`) trigger automated GitHub Releases.
 
-## ⚙️ Project Structure & Coding Standards
+## Project Structure & Coding Standards
 
 This project uses a clean **ES Module** architecture, grouping related features into distinct files. Coding standards are strictly enforced through Husky git hooks:
 
@@ -93,7 +93,7 @@ This project uses a clean **ES Module** architecture, grouping related features 
 - **Conventional Commits:** All commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification, validated locally by `commitlint` before every commit.
 - **Native APIs:** Strictly uses Chrome's native APIs (`bookmarks`, `storage`, `tabs`) to ensure stability.
 
-## 🗺️ Roadmap
+## Roadmap
 
 We track planned improvements via [GitHub Issues](https://github.com/your-repo-owner/mosaic-home/issues). Major upcoming items include:
 
@@ -102,7 +102,7 @@ We track planned improvements via [GitHub Issues](https://github.com/your-repo-o
 - **Bulk Actions:** Mass moves or deletes for bookmarks.
 - **Custom Sorting:** Sort by name, date, or usage frequency.
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repo.
 2. Create a feature branch.
@@ -110,6 +110,6 @@ We track planned improvements via [GitHub Issues](https://github.com/your-repo-o
 4. Commit following the Conventional Commits format.
 5. Submit a PR!
 
-## 📄 License
+## License
 
 MIT License - see the [LICENSE](LICENSE) file for details.
