@@ -22,7 +22,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.8.1",
-    "vite": "^8.0.1"
+    "vite": "^8.0.16"
   },
   "description": "A high-performance, minimalist Chrome extension for managing bookmarks",
   "jest": {
